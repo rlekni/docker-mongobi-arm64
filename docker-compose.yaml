@@ -54,5 +54,5 @@ volumes:
   mongobi_logs: {}
 
 networks:
-  bridge:
-    driver: mongobi-bridge
+  mongobi-bridge:
+    driver: bridge
