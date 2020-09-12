@@ -15,4 +15,3 @@ Sample docker compose to spin up:
 * MongoDB
 * Mongo-express
 * MongoBI connector
-* Portainer
