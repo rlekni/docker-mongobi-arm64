@@ -1,0 +1,60 @@
+version: "3.3"
+services:
+  mongo:
+    image: mongo
+    restart: always
+    container_name: mongodb
+    hostname: mongo
+    volumes:
+      - mongo_data:/mongodata
+    ports:
+      - 27017:27017
+    networks:
+      - bridge
+  mongo-express:
+    image: mongo-express
+    restart: always
+    container_name: mongo-express
+    ports:
+      - 8081:8081
+    networks:
+      - bridge
+    depends_on:
+      - mongo
+  # BI Connector
+  mongobi:
+    build: .
+    image: mongobi:latest
+    restart: always
+    volumes:
+      - ./config/mongosqld.conf:/home/mongobi/mongosqld.conf
+      - mongobi_logs:/logs
+    container_name: mongobi
+    hostname: mongobi
+    ports:
+      - 3307:3307
+    networks:
+      - bridge
+    depends_on:
+      - mongo
+  # Monitoring
+  portainer:
+    image: portainer/portainer:alpine
+    restart: always
+    container_name: portainer
+    hostname: portainer
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /opt/portainer:/data portainer/portainer
+    ports:
+      - 9000:9000
+    networks:
+      - bridge
+
+volumes:
+  mongo_data: {}
+  mongobi_logs: {}
+
+networks:
+  bridge:
+    driver: bridge
