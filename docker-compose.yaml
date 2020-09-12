@@ -21,7 +21,6 @@ services:
       - bridge
     depends_on:
       - mongo
-  # BI Connector
   mongobi:
     build: .
     image: mongobi:latest
@@ -37,7 +36,6 @@ services:
       - bridge
     depends_on:
       - mongo
-  # Monitoring
   portainer:
     image: portainer/portainer:alpine
     restart: always
